@@ -1,81 +1,79 @@
-var keypress = require('keypress');
-var lirc = require('lirc-client');
 var cec_controller = require('cec-controller');
+var debounce = require('debounce');
+var lirc = require('lirc-client');
 
 var cec;
-log("Send x to exit");
 
-keypress(process.stdin);
+// Config
+var xbox_physical = "12:00";
+var lirc_key_on = "KEY_POWER";
+var lirc_key_off = "KEY_POWER2"
 
-process.stdin.on('keypress', function (ch, key) {
-  if (cec) {
-    if (ch === 'a') {
-      xboxon();
-    }
-    if (ch === 'b') {
-      xboxff();
-    }
-    if (ch === 'c') {
-      log("Test command c, return standby to Chromecast");
-      send("standby 0").then(v => send("tx 5F:82:11:00"));
-    }
-    if (ch === 'd') {
-      log("Test command d, return to Chromecast");
-      send("tx 5F:82:11:00");
-    }
-  } else {
-    log("CEC was not ready")
-  }
+log("Starting up")
 
-  if (ch === 'x') {
-    process.stdin.pause();
-    process.exit();
-  }
-});
-
-process.on('exit', function(code) {
-  return log(`Exit with code ${code}`);
-});
-
-process.stdin.setRawMode(true);
-process.stdin.resume();
-
-log("Preparing LIRC")
+log("Enabling LIRC")
 var lirc_client = lirc({
   path: '/var/run/lirc/lircd'
 });
-lirc_client.on('receive', function (remote, button, repeat) {
-  if (button === "KEY_POWER") {
-    xboxon();
-  } else if (button === "KEY_POWER2") {
-    xboxoff();
+lirc_client.on('receive', function (remote, key, repeat) {
+  // Debounce because Xbox triple sends the IR command for the
+  // Samsung remote code I chose, even though the doubling option 
+  // is off.
+  if (key == lirc_key_on) {
+    xboxon_debounce();
+  } else if (key == lirc_key_off) {
+    xboxoff_debounce();
+  } else {
+    log("Unexpected LIRC key " + key)
   }
 });
 
-log("Preparing CEC support")
+log("Wait for CEC...")
 var controller = new cec_controller();
 controller.on('ready', (ready) => {
-  log("CEC ready")
+  log("...CEC ready")
   cec = ready;
 });
 controller.on('error', console.error);
 
-function log(msg) {
-  return console.log('xbox-cec:', msg)
-}
+process.on('SIGINT',() => {
+  process.exit(1);
+});
+process.on('exit', function(code) {
+  return log(`Exit with code ${code}`);
+});
+setInterval(() => {}, 0)
+
+
+var xboxon_debounce = debounce(xboxon, 300, true);
+var xboxoff_debounce = debounce(xboxoff, 300, true);
 
 function xboxon() {
   log("Xbox ON");
-  send("tx 5F:82:12:00").then(v => send("on 0"));
+  
+  // Set active source then TV on
+  sendCec("tx 5F:82:" + xbox_physical)
+    .then(v => sendCec("on 0"));
 }
 
 function xboxoff() {
   log("Xbox OFF");
-  log("Doing nothing to avoid interuptions (e.g. Xbox auto-off when using other input)");
+
+  // Set inactive source, but don't turn TV off to avoid
+  // interupting other sources.
+  sendCec("tx 5F:9D:" + xbox_physical);
 }
 
-async function send(command) {
-  log("Sending " + command)
-  return cec.command(command)
+async function sendCec(command) {
+  if (cec) {
+    return cec.command(command)
+  } else {
+    log("CEC not ready to send " + command);
+    return Promise.resolve();
+  }
+}
+
+function log(msg) {
+  return console.log('xbox-cec:', msg)
 }
 
