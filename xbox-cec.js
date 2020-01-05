@@ -1,7 +1,8 @@
 var keypress = require('keypress');
+var lirc = require('lirc-client');
 var cec_controller = require('cec-controller');
-var cec;
 
+var cec;
 log("Send x to exit");
 
 keypress(process.stdin);
@@ -9,12 +10,10 @@ keypress(process.stdin);
 process.stdin.on('keypress', function (ch, key) {
   if (cec) {
     if (ch === 'a') {
-      log("Xbox ON blast detected");
-      send("tx 5F:82:12:00").then(v => send("on 0"));
+      xboxon();
     }
     if (ch === 'b') {
-      log("Xbox OFF blast detected");
-      log("Doing nothing to avoid interuptions (e.g. Xbox auto-off when using other input)");
+      xboxff();
     }
     if (ch === 'c') {
       log("Test command c, return standby to Chromecast");
@@ -41,6 +40,18 @@ process.on('exit', function(code) {
 process.stdin.setRawMode(true);
 process.stdin.resume();
 
+log("Preparing LIRC")
+var lirc_client = lirc({
+  path: '/var/run/lirc/lircd'
+});
+lirc_client.on('receive', function (remote, button, repeat) {
+  if (button === "KEY_POWER") {
+    xboxon();
+  } else if (button === "KEY_POWER2") {
+    xboxoff();
+  }
+});
+
 log("Preparing CEC support")
 var controller = new cec_controller();
 controller.on('ready', (ready) => {
@@ -53,7 +64,18 @@ function log(msg) {
   return console.log('xbox-cec:', msg)
 }
 
+function xboxon() {
+  log("Xbox ON");
+  send("tx 5F:82:12:00").then(v => send("on 0"));
+}
+
+function xboxoff() {
+  log("Xbox OFF");
+  log("Doing nothing to avoid interuptions (e.g. Xbox auto-off when using other input)");
+}
+
 async function send(command) {
   log("Sending " + command)
   return cec.command(command)
 }
+

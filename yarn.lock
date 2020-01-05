@@ -21,6 +21,11 @@ keypress@^0.2.1:
   resolved "https://registry.yarnpkg.com/keypress/-/keypress-0.2.1.tgz#1e80454250018dbad4c3fe94497d6e67b6269c77"
   integrity sha1-HoBFQlABjbrUw/6USX1uZ7YmnHc=
 
+lirc-client@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/lirc-client/-/lirc-client-2.0.0.tgz#f96289d1d4dd398a84b0a553e1c1361ad497d798"
+  integrity sha1-+WKJ0dTdOYqEsKVT4cE2GtSX15g=
+
 ms@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
