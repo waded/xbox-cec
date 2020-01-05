@@ -10,17 +10,19 @@ Caveat:
 
 ## Hardware you need:
 
-This runs on a Raspberry Pi that has a GPIO-compatible IR sensor (e.g. TSOP38238, wired to 3.3v, Gnd, and GPIO [TODO]), and an HDMI cable connected to a receiver or the TV.
+This runs on a Raspberry Pi that has a GPIO-compatible 38khz IR sensor (e.g. TSOP38238, wired to the 3.3v, Ground, and GPIO 17 pins), and an HDMI cable connected to a receiver or the TV.
 
-The IR sensor is located with the Xbox One so it can receive IR blasts from the Xbox. For the original Xbox One model, you may need a 3.5mm IR extension cable, but newer models have an IR emitter on the front panel. See https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one for more about IR extension.
+The IR sensor is located with the Xbox One so it can receive IR blasts from the Xbox. For the original Xbox One model you may need a 3.5mm IR extension cable, but newer models have an IR emitter on the front panel. See https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one for more about IR extension.
 
 ## Setting up on/off
 
 TODO:
-- Explain software setup, SD card to ready
+- Explain software setup, Rasbian Buster SD card to ready
 - Picture of general setup
-- Explain Xbox One Device Settings needed (show pictures) and how to choose device to use as the "TV"
-- Explain how to configure xbox-cec with GPIO pin and IR codes for the "TV"
+- Explain Xbox One Device control settings (show pictures), including choosing device to use as "TV" (Remote code T2051, [tv-for-xbox-cec.conf])
+- Explain how to configure LIRC
+- Explain how to configure xbox-cec with on/off IR codes if needed
+- Explain how to configure xbox-cec w/ CEC codes
 
 ## Setting up input switching
 
