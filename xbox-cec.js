@@ -59,9 +59,7 @@ function xboxon() {
 function xboxoff() {
   log("Xbox OFF");
 
-  // Set inactive source, but don't turn TV off to avoid
-  // interupting other sources.
-  sendCec("tx 5F:9D:" + xbox_physical);
+  // Don't do anything to avoid interupting other sources.
 }
 
 async function sendCec(command) {
