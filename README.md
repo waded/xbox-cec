@@ -22,28 +22,26 @@ This runs on a Raspberry Pi that has
   GPIO 17 pins)
 - an HDMI cable connected to a receiver (or TV)
 
-The IR sensor is located with the Xbox One so it can receive IR blasts from the Xbox. 
+The IR receiver is located with the Xbox One so it can receive IR blasts from the Xbox. 
 For the original Xbox One model you may need a 3.5mm IR extension cable, but newer models 
-have an IR emitter on the front panel. See 
-https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one 
-for more about IR extension.
+have an IR emitter in the front panel. See the [Xbox support article about IR extension](https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one).
 
 ## Setting up CEC-based on/off
 
 TODO:
 - Explain Xbox One device control settings, with pictures, including choosing device 
-  to use as "TV", but suggest using remote code T2051 [tv-for-xbox-cec.conf] to
-  make the remainder of the steps easy. Be sure Xbox sends "On" to TV when turning on,
-  and "Off" to TV when turning off, so that xbox-cec can do the rest.
-- Explain OS, install cec-client, install/configure LIRC, deploy service (see issue #1)
+  to use as "TV", but suggest using remote code T2051 and LIRC config [tv-for-xbox-cec.conf](tv-for-xbox-cec.conf) to
+  make the remainder of the steps easy. In Device power options, set the Xbox to send "On" to TV when turning on,
+  and "Off" when turning off, so xbox-cec gets both events. Don't use "Toggle."
+- Explain OS, install cec-client, install/configure LIRC, deploy service (see [#1](https://github.com/waded/xbox-cec/issues/1))
 
 ## Checking that active source works with an Xbox on my receiver
 
-See issue #2. xbox-cec doesn't support this check directly yet. 
+See [#2](https://github.com/waded/xbox-cec/issues/2): xbox-cec can't help you check this just yet.
 
-You can use cec-client to scan existing HDMI-CEC bus to determine device addresses, and 
-try transmitting e.g. 5f:82:12:00 (Xbox One at address 1.2.0.0, below receiver 1.0.0.0)
-and see if your system responds appropriately.
+You can use cec-client to scan existing HDMI-CEC bus to determine device addresses (the Xbox will not show up,
+but other CEC_supporting devices will), and then try transmitting e.g. 5f:82:12:00 (for an Xbox One at address 1.2.0.0, 
+the receiver being 1.0.0.0) and see if your system responds appropriately.
 
 ## Setting up CEC-based input switching
 
