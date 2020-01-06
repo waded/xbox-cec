@@ -2,6 +2,7 @@
     "license": "MIT",
     "dependencies": {
         "@senzil/cec-monitor": "^2.1.0",
-        "lirc-client": "^2.0.0"
+        "lirc-client": "^2.0.0",
+        "minimist": "^1.2.0"
     }
 }
