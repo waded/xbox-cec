@@ -3,8 +3,8 @@ let lirc = require("lirc-client");
 
 // Config placeholders
 const xbox_physical = "12:00";
-const lirc_key_on = "KEY_POWER";
-const lirc_key_off = "KEY_POWER2";
+const ir_on = "KEY_POWER";
+const ir_off = "KEY_POWER2";
 
 log("Starting");
 
@@ -14,12 +14,12 @@ let lirc_client = lirc({
 });
 lirc_client.on("receive", function (remote, key, repeat) {
   if (repeat = "00") {
-    if (key == lirc_key_on) {
+    if (key == ir_on) {
       xboxon();
-    } else if (key == lirc_key_off) {
+    } else if (key == ir_off) {
       xboxoff();
     } else {
-      log("Unexpected LIRC key", key);
+      log("Unexpected IR key", key);
     }
   }
 });
