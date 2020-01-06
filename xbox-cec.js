@@ -13,9 +13,6 @@ let lirc_client = lirc({
   path: "/var/run/lirc/lircd"
 });
 lirc_client.on("receive", function (remote, key, repeat) {
-  // Debounce because Xbox triple sends the IR command for the
-  // Samsung remote code I chose, even though the doubling option 
-  // is off.
   if (key == lirc_key_on) {
     xboxon();
   } else if (key == lirc_key_off) {
@@ -29,7 +26,6 @@ log("Wait for CEC...")
 let monitor = new CECMonitor("xbox-cec", {});
 monitor.once(CECMonitor.EVENTS._READY, () => {
   log("...CEC ready");
-  xboxon();
 });
 
 process.on("exit", (code) => {
