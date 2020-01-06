@@ -1,77 +1,57 @@
-var cec_controller = require('cec-controller');
-var debounce = require('debounce');
-var lirc = require('lirc-client');
+let CECMonitor = require('@senzil/cec-monitor').CECMonitor;
+let lirc = require('lirc-client');
 
-var cec;
+// Config placeholders
+const xbox_physical = "12:00";
+const lirc_key_on = "KEY_POWER";
+const lirc_key_off = "KEY_POWER2"
 
-// Config
-var xbox_physical = "12:00";
-var lirc_key_on = "KEY_POWER";
-var lirc_key_off = "KEY_POWER2"
-
-log("Starting up")
+log("Starting")
 
 log("Enabling LIRC")
-var lirc_client = lirc({
-  path: '/var/run/lirc/lircd'
+let lirc_client = lirc({
+  path: "/var/run/lirc/lircd"
 });
-lirc_client.on('receive', function (remote, key, repeat) {
+lirc_client.on("receive", function (remote, key, repeat) {
   // Debounce because Xbox triple sends the IR command for the
   // Samsung remote code I chose, even though the doubling option 
   // is off.
   if (key == lirc_key_on) {
-    xboxon_debounce();
+    xboxon();
   } else if (key == lirc_key_off) {
-    xboxoff_debounce();
+    xboxoff();
   } else {
-    log("Unexpected LIRC key " + key)
+    log("Unexpected LIRC key ", key)
   }
 });
 
 log("Wait for CEC...")
-var controller = new cec_controller();
-controller.on('ready', (ready) => {
-  log("...CEC ready")
-  cec = ready;
+let monitor = new CECMonitor("xbox-cec", {});
+monitor.once(CECMonitor.EVENTS._READY, () => {
+  log("...CEC ready");
+  xboxon();
 });
-controller.on('error', console.error);
 
-process.on('SIGINT',() => {
-  process.exit(1);
+process.on("exit", (code) => {
+  log("Exit with code", code);
 });
-process.on('exit', function(code) {
-  return log(`Exit with code ${code}`);
-});
-setInterval(() => {}, 0)
-
-
-var xboxon_debounce = debounce(xboxon, 300, true);
-var xboxoff_debounce = debounce(xboxoff, 300, true);
 
 function xboxon() {
   log("Xbox ON");
   
-  // Set active source then TV on
-  sendCec("tx 5F:82:" + xbox_physical)
-    .then(v => sendCec("on 0"));
+  // Set active source then ensure TV on
+  monitor.WaitForReady()
+    .then(() => monitor.WriteRawMessage("tx 5F:82:" + xbox_physical))
+    .then(() => monitor.WriteRawMessage("on 0"));
 }
 
 function xboxoff() {
   log("Xbox OFF");
 
-  // Don't do anything to avoid interupting other sources.
+  // Do nothing, to avoid interupting other sources
 }
 
-async function sendCec(command) {
-  if (cec) {
-    return cec.command(command)
-  } else {
-    log("CEC not ready to send " + command);
-    return Promise.resolve();
-  }
-}
-
-function log(msg) {
-  return console.log('xbox-cec:', msg)
+function log(...params) {
+  console.log("xbox-cec:", ...params)
 }
 
