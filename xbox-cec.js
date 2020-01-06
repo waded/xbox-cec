@@ -18,7 +18,7 @@ lirc_client.on("receive", function (remote, key, repeat) {
   } else if (key == lirc_key_off) {
     xboxoff();
   } else {
-    log("Unexpected LIRC key ", key)
+    log("Unexpected LIRC key", key)
   }
 });
 
