@@ -13,7 +13,7 @@ let lirc_client = lirc({
   path: "/var/run/lirc/lircd"
 });
 lirc_client.on("receive", function (remote, key, repeat) {
-  if (repeat = "00") {
+  if (repeat == "00") {
     if (key == ir_on) {
       xboxon();
     } else if (key == ir_off) {
