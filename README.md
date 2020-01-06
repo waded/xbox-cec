@@ -32,7 +32,8 @@ TODO:
 - Explain Xbox One device control settings, with pictures, including choosing device 
   to use as "TV", but suggest using remote code T2051 and LIRC config [tv-for-xbox-cec.conf](tv-for-xbox-cec.conf) to
   make the remainder of the steps easy. In Device power options, set the Xbox to send "On" to TV when turning on,
-  and "Off" when turning off, so xbox-cec gets both events. Don't use "Toggle."
+  and "Off" when turning off, so xbox-cec gets both events. Don't use "Toggle", because xbox-cec doesn't try to track
+  state of the system, and you'll want it to do different things for on vs. off.
 - Explain OS, install cec-client, install/configure LIRC, deploy service (see [#1](https://github.com/waded/xbox-cec/issues/1))
 
 ## Checking that active source works with an Xbox on my receiver
