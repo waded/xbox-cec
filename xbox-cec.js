@@ -12,7 +12,7 @@ log("Enabling LIRC");
 let lirc_client = lirc({
   path: "/var/run/lirc/lircd"
 });
-lirc_client.on("receive", function(remote, key, repeat) {
+lirc_client.on("receive", function (remote, key, repeat) {
   if (key == lirc_key_on) {
     xboxon();
   } else if (key == lirc_key_off) {
