@@ -1,8 +1,7 @@
 {
     "license": "MIT",
     "dependencies": {
-        "cec-controller": "^1.4.0",
-        "debounce": "^1.2.0",
+        "@senzil/cec-monitor": "^2.1.0",
         "lirc-client": "^2.0.0"
     }
 }
