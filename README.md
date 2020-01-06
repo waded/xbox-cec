@@ -38,11 +38,24 @@ TODO:
 
 ## Checking that active source works with an Xbox on my receiver
 
-See [#2](https://github.com/waded/xbox-cec/issues/2): xbox-cec can't help you check this just yet.
+See [#2](https://github.com/waded/xbox-cec/issues/2). xbox-cec can't help you check this just yet.
 
-You can use cec-client to scan existing HDMI-CEC bus to determine device addresses (the Xbox will not show up,
-but other CEC_supporting devices will), and then try transmitting e.g. 5f:82:12:00 (for an Xbox One at address 1.2.0.0, 
-the receiver being 1.0.0.0) and see if your system responds appropriately.
+Alternatively, use `cec-client` to scan existing HDMI-CEC bus to determine device addresses:
+
+`echo scan | cec-client -s -d 1`
+
+Xbox One will not show up in the scan, since as of January 2020 it doesn't support CEC, but other 
+CEC-enabled devices will. Note the `Address` of each. A TV might be at `0.0.0.0`, a CEC-enabled 
+receiver at `1.0.0.0`, a CEC-enabled device on the receiver's first input at `1.1.0.0`, the second at 
+`1.2.0.0`, and so on.
+
+Then try broadcasting an active source command targeting the Xbox One's input, say the third:
+
+`echo tx 5f:82:13:00 | cec-client -s -d 1` 
+
+and see how your system responds. Physical input address `1.3.0.0` is expressed in this command
+as `13:00`, with the remainder being opcode (`82` active source) and somewhat irrelevant 
+source and destination (`5` receiver, `F` broadcast.)
 
 ## Setting up CEC-based input switching
 
