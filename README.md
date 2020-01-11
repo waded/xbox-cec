@@ -12,9 +12,9 @@ It's often suggested you use a universal remote, like Harmony Hub, to orchestrat
 and more, but Harmony won't respond when you turn on the Xbox using controllers, and Harmony's
 Google/Alexa support can conflict with the [Xbox's own support for richer voice commands](https://support.xbox.com/en-US/browse/xbox-one/voice-and-digital-assistants).
   
-It's increasingly common that game consoles support CEC to switch inputs, so your Xbox
-may be the last device that can't CEC itself to active sourciness. If you already have
-a Raspberry Pi you're within a few dollars (and this service) of what you need to fix it.
+Many game consoles already use CEC to switch inputs, so your Xbox
+may be the last device that can't CEC itself to active sourciness. If you have
+a Raspberry Pi you're within a few dollars (and this service) of what you need to fix this.
 
 Not all receivers handle CEC active source commands in the same way. Please run
 through *Testing that active source works with an Xbox on my receiver* with a 
