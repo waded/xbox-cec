@@ -2,19 +2,19 @@
 
 This service:
 
-- **enables TV-on/off over HDMI-CEC when an Xbox One turns on/off.** Although Xbox One
+- **enables TV-on/off over HDMI when an Xbox One turns on/off.** Although Xbox One
   can turn TV on/off by sending infrared (IR) remote signals, that's not enough in some systems,
   so it also:
 
-- **sends additional CEC commands e.g. to switch receiver inputs when the Xbox One turns on/off.**
+- **sends additional commands e.g. to switch receiver input when the Xbox One turns on/off.**
   
 It's often suggested you use a universal remote, e.g. Harmony Hub, to switch inputs and more, but
-remote commands don't trigger when you turn on the Xbox using controllers and Harmony's Google/Alexa
-support can conflict with the Xbox's support for more complex Google/Alexa commands. 
+the remote won't respond when you turn on the Xbox using controllers, and Harmony's Google/Alexa
+support can conflict with the [Xbox's support for more complex commands](https://support.xbox.com/en-US/browse/xbox-one/voice-and-digital-assistants).
   
 It's increasingly common that game consoles support CEC to switch inputs, so your Xbox
-may be the last device that can't do it on its own. If you already have a Raspberry Pi
-you're within a few dollars (and this service) of what you need to fix it.
+may be the last device that can't CEC itself to active sourciness. If you already have
+a Raspberry Pi you're within a few dollars (and this service) of what you need to fix it.
 
 Not all receivers handle CEC active source commands in the same way. Please run
 through *Testing that active source works with an Xbox on my receiver* with a 
