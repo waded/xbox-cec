@@ -5,15 +5,19 @@ This service:
 - **enables TV-on/off over HDMI-CEC when an Xbox One turns on/off.** Although Xbox One
   can turn TV on/off by sending infrared (IR) remote signals, that's not enough in some systems,
   so it also:
+
 - **sends additional CEC commands e.g. to switch receiver inputs when the Xbox One turns on/off.**
-  It's often suggested you use a universal remote, e.g. Harmony Hub, to do this and more, but
-  remote commands don't trigger when you turn on the Xbox using controllers or voice/assistant, 
-  and can conflict with the Xbox's deeper voice/assistant commands (e.g. the "there are two devices
-  named Xbox" problem.) It's also increasingly common that devices use CEC to switch inputs,
-  so your Xbox may be the last device standing that needs such help.
+  
+It's often suggested you use a universal remote, e.g. Harmony Hub, to switch inputs and more, but
+remote commands don't trigger when you turn on the Xbox using controllers and Harmony's Google/Alexa
+support can conflict with the Xbox's support for more complex Google/Alexa commands. 
+  
+It's increasingly common that game consoles support CEC to switch inputs, so your Xbox
+may be the last device that can't do it on its own. If you already have a Raspberry Pi
+you're within a few dollars (and this service) of what you need to fix it.
 
 Not all receivers handle CEC active source commands in the same way. Please run
-through *Checking that active source works with an Xbox on my receiver* with a 
+through *Testing that active source works with an Xbox on my receiver* with a 
 Pi you already have before buying anything!
 
 ## Hardware needed
@@ -23,46 +27,50 @@ This runs on a Raspberry Pi that has
   GPIO 17 pins)
 - an HDMI cable connected to receiver or TV
 
-The IR receiver must be located with/near the Xbox One so it can receive the Xbox IR blasts. 
-For the original Xbox One model you may need an IR extension cable if you don't use Kinect, 
-but newer models have an IR emitter in the front panel. See the 
+The IR receiver must be located so it can receive IR blasts from the Xbox. 
+For the original Xbox One model you may need an IR extension cable, but newer models 
+have an IR emitter in the front panel. See the 
 [Xbox support article about IR extension](https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one).
 
 ## Setting up CEC-based on/off
 
 TODO:
 - Explain Xbox One device control settings, with pictures, including choosing device 
-  to use as "TV", but suggest using remote code T2051 and [a corresponding LIRC config](tv-for-xbox-cec.conf)
-  to make the remainder of the steps easy. In Device power options, set Xbox to send "On" to TV when
-  turning on, and "Off" when turning off, so xbox-cec gets both events. Don't use "Toggle" so that
-  xbox-cec  can do different things at on vs. off (it doesn't try to track state of the Xbox.)
-- Explain OS, install cec-client, install/configure LIRC, deploy service (see
+  to use as "TV", but suggest using TV remote code T2051 and [the matching LIRC config](tv-for-xbox-cec.conf)
+  making the steps easy. In Device power options, set Xbox to send "On" to TV when
+  turning on, and "Off" when turning off.
+- Install OS, install cec-client, install/configure LIRC, deploy service (see
   [#1](https://github.com/waded/xbox-cec/issues/1))
-
-## Checking that active source works with an Xbox on my receiver
-
-See [#2](https://github.com/waded/xbox-cec/issues/2). xbox-cec can't help you check this just yet.
-
-Alternatively, use `cec-client` to scan existing HDMI-CEC bus to determine device addresses:
-
-`echo scan | cec-client -s -d 1`
-
-Xbox One will show up in the scan, since as of January 2020  doesn't support CEC (thus this
-service), but other CEC-enabled devices should. Note `Address` of each. A TV might be at address `0.0.0.0`,
-a CEC-enabled receiver at `1.0.0.0`, a device on the receiver's first input at `1.1.0.0`, the second at 
-`1.2.0.0`, and so on.
-
-Then try broadcasting an active source CEC command targeting the Xbox's input on the receiver, 
-say the third input:
-
-`echo tx 5f:82:13:00 | cec-client -s -d 1` 
-
-and see how your receiver responds. Physical address `1.3.0.0` is expressed as
-as `13:00`, with the remainder being opcode (`82` active source), somewhat irrelevant 
-source (`5` receiver), and destination (`F` broadcast.)
-
+  
 ## Setting up CEC-based input switching
 
 TODO:
-- Determining CEC physical address of the Xbox One
-- Configuring xbox-cec with custom CEC codes if not opcode 82
+- Determine physical address of the Xbox One
+- Configure xbox-cec with custom CEC codes if not opcode 82
+
+## Testing that active source works with an Xbox on my receiver
+
+See [#2](https://github.com/waded/xbox-cec/issues/2). xbox-cec can't help you test this just yet.
+
+You can use `cec-client` to test this instead. Connect the HDMI cable between your Pi and Receiver,
+boot your Pi, install `cec-client` (find a recent guide, but `sudo apt-get install cec-utils` is
+usually all you need), then scan for devices:
+
+`echo scan | cec-client -s -d 1`
+
+Xbox will not show up in this scan, but other CEC-enabled devices should. Note `Address` 
+of each. Your TV should be at address `0.0.0.0`, a CEC-enabled receiver at `1.0.0.0`, a
+device on the receiver's first input at `1.1.0.0`, the second at `1.2.0.0`, and so on.
+
+Then try broadcasting an active source CEC command targeting the Xbox's input on the receiver.
+
+Say Xbox is the 3rd HDMI input, which should be `1.3.0.0` given the scan:
+
+`echo tx 5f:82:13:00 | cec-client -s -d 1` 
+
+`1.3.0.0` is expressed as hex `13:00`, with the remainder being opcode (`82` active source),
+somewhat irrelevant requesting source (`5` receiver), and destination (`F` broadcast.)
+
+If this command turned on your TV and switched the receiver over to the Xbox input, you're in
+business! If not, make sure you have CEC turned on at all points between the TV and the Xbox.
+Note CEC has many names, for example "Anynet+" on Samsung TVs.
