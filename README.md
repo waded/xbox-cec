@@ -2,15 +2,15 @@
 
 This service:
 
-- **enables TV-on/off over HDMI when an Xbox One turns on/off.** Although Xbox One
-  can turn TV on/off by sending infrared (IR) remote signals, that's not enough in some systems,
-  so it also:
+- **turns your TV on using HDMI-CEC when your Xbox One turns on.** Although Xbox
+  can turn TVs on (or off) by infrared (IR) remote signals, that's not enough in some systems,
+  so this system also
 
-- **sends additional commands e.g. to switch receiver input when the Xbox One turns on/off.**
+- **sends additional customizable CEC commands, for example to switch receiver input to the Xbox.**
   
-It's often suggested you use a universal remote, e.g. Harmony Hub, to switch inputs and more, but
-the remote won't respond when you turn on the Xbox using controllers, and Harmony's Google/Alexa
-support can conflict with the [Xbox's support for more complex commands](https://support.xbox.com/en-US/browse/xbox-one/voice-and-digital-assistants).
+It's often suggested you use a universal remote, like Harmony Hub, to orchestrate input switching
+and more, but Harmony won't respond when you turn on the Xbox using controllers, and Harmony's
+Google/Alexa support can conflict with the [Xbox's own support for richer voice commands](https://support.xbox.com/en-US/browse/xbox-one/voice-and-digital-assistants).
   
 It's increasingly common that game consoles support CEC to switch inputs, so your Xbox
 may be the last device that can't CEC itself to active sourciness. If you already have
