@@ -14,7 +14,8 @@ Google/Alexa support can conflict with the [Xbox's own support for richer voice 
   
 Many game consoles already use CEC to switch inputs, so your Xbox
 may be the last device that can't CEC itself to active sourciness. If you have
-a Raspberry Pi you're within a few dollars (and this service) of what you need to fix this.
+a Raspberry Pi and a free HDMI input you're within a few dollars (and this service) of what 
+you need to fix it.
 
 Not all receivers handle CEC active source commands in the same way. Please run
 through *Testing that active source works with an Xbox on my receiver* with a 
