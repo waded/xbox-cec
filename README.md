@@ -59,17 +59,21 @@ usually all you need), then scan for devices:
 `echo scan | cec-client -s -d 1`
 
 Xbox will not show up in this scan, but other CEC-enabled devices should. Note `Address` 
-of each. Your TV should be at address `0.0.0.0`, a CEC-enabled receiver at `1.0.0.0`, a
-device on the receiver's first input at `1.1.0.0`, the second at `1.2.0.0`, and so on.
+of each. Your TV should be at address `0.0.0.0`, and if for example a CEC-enabled receiver's at 
+`1.0.0.0`, then a device on the receiver's first HDMI input might be at `1.1.0.0`, the second at 
+`1.2.0.0`, and so on.
 
 Then try broadcasting an active source CEC command targeting the Xbox's input on the receiver.
 
-Say Xbox is the 3rd HDMI input, which should be `1.3.0.0` given the scan:
+`echo tx 5f:82:<hex address> | cec-client -s -d 1` 
+
+Say Xbox was the 3rd HDMI input on the receiver, address `1.3.0.0` given the prior example. So we'd run:
 
 `echo tx 5f:82:13:00 | cec-client -s -d 1` 
 
-`1.3.0.0` is expressed as hex `13:00`, with the remainder being opcode (`82` active source),
-somewhat irrelevant requesting source (`5` receiver), and destination (`F` broadcast.)
+`1.3.0.0` is expressed in this command as (hex words) `13:00`, with the remainder being opcode 
+(`82` active source), somewhat irrelevant requesting source (`5` receiver), and destination 
+(`F` broadcast.)
 
 If this command turned on your TV and switched the receiver over to the Xbox input, you're in
 business! If not, make sure you have CEC turned on at all points between the TV and the Xbox.
