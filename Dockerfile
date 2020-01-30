@@ -3,7 +3,7 @@ MAINTAINER Wade Dorrell <wade@dorrells.org>
 
 RUN apk --no-cache add \ 
   raspberrypi raspberrypi-libs eudev-libs p8-platform \
-  build-base cmake eudev-dev swig raspberrypi-dev p8-platform-dev
+  build-base cmake eudev-dev raspberrypi-dev p8-platform-dev
  
 RUN \
   cd \ 
