@@ -23,7 +23,7 @@ Pi you already have before buying anything!
 
 ## Project status, contributions
 
-I've (@waded) paused my work on this project, because as-is the source works for my setup, and I expect will continue to be sufficient until I replace our Xbox One with a Series X, since it sounds like those will have CEC support, and I presume the same assistant support.
+I've (@waded) paused my work on this project, because as-is the source works for my setup, and I expect will continue to until I replace our Xbox One with Xbox Series X, since Microsoft confirmed Series X will have HDMI-CEC support, rather than continue with IR blasters (https://www.windowscentral.com/xbox-series-x-wont-have-spdif-optical-audio-or-ir-blaster).
 
 Feel free to fork for your own purposes, and I'd be happy to review/test and consider approve of PRs if you provide good documentation!
 
