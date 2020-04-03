@@ -35,7 +35,7 @@ This runs on a Raspberry Pi that has
 - an HDMI cable connected to receiver or TV
 
 The IR receiver must be located so it can receive IR blasts from the Xbox. 
-For the original Xbox One model you may need an IR extension cable, but newer models 
+For older Xbox One models you may need an IR extension cable, but newer models 
 have an IR emitter in the front panel. See the 
 [Xbox support article about IR extension](https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one).
 
@@ -81,6 +81,6 @@ So the complete command is:
 The remaining hex words in the tx command are opcode  (`82` active source), the
 somewhat irrelevant requesting source (`5` receiver), and destination (`F` broadcast.)
 
-If this command turned on your TV and switched the receiver over to the Xbox input, you're in
+If this command turned on your TV and switched the receiver over to HDMI 3, you're in
 business! If not, make sure you have CEC turned on at all points between the TV and the Xbox.
 Note CEC has many names, for example "Anynet+" on Samsung TVs.
