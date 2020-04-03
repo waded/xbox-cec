@@ -39,7 +39,7 @@ For the original Xbox One model you may need an IR extension cable, but newer mo
 have an IR emitter in the front panel. See the 
 [Xbox support article about IR extension](https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one).
 
-## Setting up CEC-based on/off
+## Set up CEC-based TV on/off
 
 TODO:
 - Explain Xbox One device control settings, with pictures, including choosing device 
@@ -49,11 +49,11 @@ TODO:
 - Install OS, install cec-client, install/configure LIRC, deploy service (see
   [#1](https://github.com/waded/xbox-cec/issues/1))
   
-## Setting up CEC-based input switching
+## Set up CEC-based input switch
 
 TODO:
-- Determine physical address of the Xbox One
-- Configure xbox-cec with custom CEC codes if not opcode 82
+- Determine physical address of Xbox One
+- Configure xbox-cec with physical address (currently hardcoded in var `xbox_physical` to `1.2.0.0`)
 
 ## Testing that active source works with an Xbox on my receiver
 
