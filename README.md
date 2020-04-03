@@ -39,7 +39,7 @@ For the original Xbox One model you may need an IR extension cable, but newer mo
 have an IR emitter in the front panel. See the 
 [Xbox support article about IR extension](https://beta.support.xbox.com/help/hardware-network/oneguide-live-tv/use-external-ir-with-xbox-one).
 
-## Set up CEC-based TV on/off
+## Set up CEC-based TV on/off and input switch
 
 TODO:
 - Explain Xbox One device control settings, with pictures, including choosing device 
@@ -47,19 +47,15 @@ TODO:
   making the steps easy. In Device power options, set Xbox to send "On" to TV when
   turning on, and "Off" when turning off.
 - Install OS, install cec-client, install/configure LIRC, deploy service (see
-  [#1](https://github.com/waded/xbox-cec/issues/1))
-  
-## Set up CEC-based input switch
-
-TODO:
+  [#1](https://github.com/waded/xbox-cec/issues/1))  
 - Determine physical address of Xbox One
-- Configure xbox-cec with physical address (currently hardcoded in var `xbox_physical` to `1.2.0.0`)
+- Configure xbox-cec with physical address (currently hardcoded in var `xbox_physical` to `12:00`)
 
 ## Testing that active source works with an Xbox on my receiver
 
-See [#2](https://github.com/waded/xbox-cec/issues/2). xbox-cec can't help you test this just yet.
+xbox-cec can't help you test this just yet. See [#2](https://github.com/waded/xbox-cec/issues/2). 
 
-You can use `cec-client` to test this instead. Connect the HDMI cable between your Pi and Receiver,
+You can use `cec-client` to test instead. Connect the HDMI cable between your Pi and Receiver,
 boot your Pi, install `cec-client` (find a recent guide, but `sudo apt-get install cec-utils` is
 usually all you need), then scan for devices:
 
@@ -70,17 +66,20 @@ of each. Your TV should be at address `0.0.0.0`, and if for example a CEC-enable
 `1.0.0.0`, then a device on the receiver's first HDMI input might be at `1.1.0.0`, the second at 
 `1.2.0.0`, and so on.
 
-Then try broadcasting an active source CEC command targeting the Xbox's input on the receiver.
+Then try broadcasting an active source CEC command targeting the Xbox's input, using 
+a command in this form:
 
-`echo tx 5f:82:<hex address> | cec-client -s -d 1` 
+`echo tx 5f:82:<hex words stating Xbox physical address> | cec-client -s -d 1` 
 
-Say Xbox was the 3rd HDMI input on the receiver, address `1.3.0.0` given the prior example. So we'd run:
+Say Xbox is on the 3rd HDMI input on the receiver, address `1.3.0.0` given the above example.
+Physical addresses are expressed to cec-client as two hex words, `13:00` in this case.
+
+So the complete command is:
 
 `echo tx 5f:82:13:00 | cec-client -s -d 1` 
 
-`1.3.0.0` is expressed in this command as (hex words) `13:00`, with the remainder being opcode 
-(`82` active source), somewhat irrelevant requesting source (`5` receiver), and destination 
-(`F` broadcast.)
+The remaining hex words in the tx command are opcode  (`82` active source), the
+somewhat irrelevant requesting source (`5` receiver), and destination (`F` broadcast.)
 
 If this command turned on your TV and switched the receiver over to the Xbox input, you're in
 business! If not, make sure you have CEC turned on at all points between the TV and the Xbox.
