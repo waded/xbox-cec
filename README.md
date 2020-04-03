@@ -21,6 +21,12 @@ Not all receivers handle CEC active source commands in the same way. Please run
 through *Testing that active source works with an Xbox on my receiver* with a 
 Pi you already have before buying anything!
 
+## Project status, contributions
+
+I've (@waded) paused my work on this project, because as-is the source works for my setup, and I expect will continue to be sufficient until I replace our Xbox One with a Series X, since it sounds like those will have CEC support, and I presume the same assistant support.
+
+Feel free to fork for your own purposes, and I'd be happy to review/test and consider approve of PRs if you provide good documentation!
+
 ## Hardware needed
 
 This runs on a Raspberry Pi that has 
