@@ -2,11 +2,11 @@
 
 This service:
 
-- **turns your TV on using HDMI-CEC when your Xbox One turns on.** Although Xbox
-  can turn TVs on (or off) by infrared (IR) remote signals, that's not enough in some systems,
+- **turns your TV on when your Xbox One turns on** Although Xbox
+  can turn TVs on (or off) by infrared (IR) signals, that's not enough in some systems,
   so this system also
 
-- **sends additional customizable CEC commands, for example to switch receiver input to the Xbox.**
+- **sends additional customizable HDMI-CEC commands, for example to switch receiver input to the Xbox.**
   
 It's often suggested you use a universal remote, like Harmony Hub, to orchestrate input switching
 and more, but Harmony won't respond when you turn on the Xbox using controllers, and Harmony's
@@ -78,8 +78,9 @@ So the complete command is:
 
 `echo tx 5f:82:13:00 | cec-client -s -d 1` 
 
-The remaining hex words in the tx command are opcode  (`82` active source), the
-somewhat irrelevant requesting source (`5` receiver), and destination (`F` broadcast.)
+The remaining hex words in the tx command are opcode  (`82`, set active source),
+destination (`f`, broadcast), and the somewhat irrelevant requesting source (`5`, 
+receiver.)
 
 If this command turned on your TV and switched the receiver over to HDMI 3, you're in
 business! If not, make sure you have CEC turned on at all points between the TV and the Xbox.
