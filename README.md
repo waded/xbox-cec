@@ -2,11 +2,11 @@
 
 This service:
 
-- **turns your TV on when your Xbox One turns on** Although Xbox
-  can turn TVs on (or off) by infrared (IR) signals, that's not enough in some systems,
+- **turns your TV on when your Xbox One turns on.** Although Xbox
+  can turn TVs on (and off) by infrared (IR) signals, that's not enough in some systems,
   so this system also
 
-- **sends additional customizable HDMI-CEC commands, for example to switch receiver input to the Xbox.**
+- **sends additional customizable HDMI-CEC commands, for example to switch receiver input, after turning on the TV**
   
 It's often suggested you use a universal remote, like Harmony Hub, to orchestrate input switching
 and more, but Harmony won't respond when you turn on the Xbox using controllers, and Harmony's
